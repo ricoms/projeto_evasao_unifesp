@@ -7,7 +7,7 @@ def plot_calibration_curve(classificadores, X_train, y_train, X_test, y_test, po
     ax1 = plt.subplot2grid((3, 1), (0, 0), rowspan=2)
     ax2 = plt.subplot2grid((3, 1), (2, 0))
 
-    ax1.plot([0, 1], [0, 1], "k:", label="Calibrado perfeitamente")
+    ax1.plot([0, 1], [0, 1], "k:", label="Perfectly calibrated")
     
     for clf, name in classificadores:
         clf.fit(X_train, y_train)
@@ -36,13 +36,13 @@ def plot_calibration_curve(classificadores, X_train, y_train, X_test, y_test, po
         ax2.hist(prob_pos, range=(0, 1), bins=10, label=name,
                  histtype="step", lw=2)
 
-    ax1.set_ylabel("Fração de positivos")
+    ax1.set_ylabel("Positive fraction")
     ax1.set_ylim([0, 1.05])
     ax1.legend(loc="lower right")
     #ax1.set_title('Gráfico de calibragem  (curva de confiança)')
 
-    ax2.set_xlabel("Valor médio previsto")
-    ax2.set_ylabel("Contagem")
+    ax2.set_xlabel("Mean value expected")
+    ax2.set_ylabel("Counting")
     #ax2.legend(loc="upper center", ncol=2)
 
     plt.tight_layout()
@@ -97,7 +97,7 @@ def cluster_results(reduced_data, preds, centers):
 	plot_data = pd.concat([predictions, reduced_data], axis = 1)
 
 	# Generate the cluster plot
-	fig, ax = plt.subplots(figsize = (14,8))
+	fig, ax = plt.subplots(figsize = (20,8))
 
 	# Color map
 	cmap = cm.get_cmap('gist_rainbow')
@@ -118,7 +118,7 @@ def cluster_results(reduced_data, preds, centers):
 	           #s = 150, linewidth = 4, color = 'black', marker = 'x');
 
 	# Set plot title
-	ax.set_title("Cluster Learning on PCA-Reduced Data - Centroids Marked by Number\nTransformed Sample Data Marked by Black Cross");
+	#ax.set_title("Cluster Learning on PCA-Reduced Data - Centroids Marked by Number");
 
 
 def channel_results(reduced_data, outliers, pca_samples):
@@ -140,7 +140,7 @@ def channel_results(reduced_data, outliers, pca_samples):
 	labeled = pd.concat([reduced_data, channel], axis = 1)
 	
 	# Generate the cluster plot
-	fig, ax = plt.subplots(figsize = (14,8))
+	fig, ax = plt.subplots(figsize = (14,14))
 
 	# Color map
 	cmap = cm.get_cmap('gist_rainbow')
