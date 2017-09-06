@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from sklearn.metrics import (brier_score_loss, precision_score, recall_score, f1_score)
 from sklearn.calibration import calibration_curve
+from sklearn.model_selection import GridSearchCV
 
 def plot_calibration_curve(classificadores, X_train, y_train, X_test, y_test, pos_label):
     plt.figure(figsize=(10, 10))
@@ -9,8 +10,16 @@ def plot_calibration_curve(classificadores, X_train, y_train, X_test, y_test, po
 
     ax1.plot([0, 1], [0, 1], "k:", label="Perfectly calibrated")
     
-    for clf, name in classificadores:
-        clf.fit(X_train, y_train)
+    for name in classificadores.keys():
+        clf = classificadores[name][0]
+        clf_params = classificadores[name][1]
+        if clf_params:
+            svr = GridSearchCV(clf, clf_params)
+            svr.fit(X_train, y_train['DESISTENTE'])
+            clf = svr.best_estimator_
+            print(svr.best_params_)
+        else:
+            clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
         if hasattr(clf, "predict_proba"):
             prob_pos = clf.predict_proba(X_test)[:, 1]
